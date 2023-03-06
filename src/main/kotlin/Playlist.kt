@@ -2,6 +2,7 @@
 
 class Playlist(val name: String) {
     private val songs = mutableListOf<Song>()
+    private var isShuffled = false
 
     fun addSongs(newSongs: List<Song>) {
         songs.addAll(newSongs)
@@ -15,12 +16,25 @@ class Playlist(val name: String) {
         songs.removeAt(index)
     }
 
+    fun search(query: String): List<Song> {
+        return songs.filter {song ->
+            song.title.contains(query, ignoreCase = true) || song.artist.contains(query, ignoreCase = true)
+        }
+    }
+
     fun reorderSong(fromIndex: Int, toIndex: Int) {
         val song = songs.removeAt(fromIndex)
         songs.add(toIndex, song)
     }
 
     fun getSongs(): List<Song> {
-        return songs.toList()
+        return if (isShuffled) {
+            songs.shuffled()
+        } else {
+            songs.toList()
+        }
+    }
+    fun shuffle() {
+        isShuffled = !isShuffled
     }
 }
