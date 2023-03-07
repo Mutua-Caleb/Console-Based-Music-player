@@ -17,6 +17,7 @@ class MusicPlayer(private val playList: Playlist, private val userPreferences: U
         val song = playList.getSongs()[currentSongIndex]
         val command = "cmd /c start wmplayer.exe \"${song.filePath}\""
         mediaPlayer = ProcessBuilder(command).start()
+        setVolume(volume)
         isPlaying = true
     }
 
